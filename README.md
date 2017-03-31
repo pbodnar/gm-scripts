@@ -1,6 +1,6 @@
 # About
 
-This project contains various handy user scripts for the Greasemonkey (in Firefox; GM) and Tampermonkey (in Chrome; TM) browser addons. A user script is a peace of JavaScript code which gets executed on page load and which extends functionality of the pages it was written for. 
+This project contains various handy user scripts for the [Greasemonkey](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/) (for Firefox; GM) and [Tampermonkey](https://chrome.google.com/webstore/detail/dhdgffkkebhmkfjojejmpbldmpobfkfo) (for Chrome; TM) browser addons. A user script is a peace of JavaScript code which gets executed on page load and which extends functionality of the pages it was written for. 
 
 # Installation
 
