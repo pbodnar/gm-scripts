@@ -15,3 +15,21 @@ The usage is always specific to a given user script. Most user scripts should of
 What if something is not working as expected? Then you should firstly try to find some relevant information or error messages in the console log - this is typically available by pressing F12 in your browser and by navigating to the "Console" tab. And select for example "Logging -> Log" to see detailed logging from the GM scripts in Firefox.
 
 If you find a bug or a missing feature, you can create a new issue for that on the "Issues" page of this Github project.
+
+# For developers
+
+This special chapter includes tips for those who would like to develop GM / TM scripts. 
+
+## Run GM Scripts on Local Disk Files
+
+Set the following on the "about:config" page in Firefox:
+
+    greasemonkey.fileIsGreaseable: true
+
+See http://stackoverflow.com/questions/9931115/run-greasemonkey-on-html-files-located-on-the-local-filesystem
+
+## Force GM to Run Script in Sandbox
+
+At least some `@grant <> 'none'` must be present in the user script's header in order to force GM to run the script 'in sandbox'.
+
+See http://stackoverflow.com/questions/12146445/jquery-in-greasemonkey-1-0-conflicts-with-websites-using-jquery

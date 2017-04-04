@@ -9,18 +9,14 @@
 // @require     https://raw.githubusercontent.com/jeresig/jquery.hotkeys/0.2.0/jquery.hotkeys.js
 // ==/UserScript==
 
-// NOTES FOR DEVS
-// http://stackoverflow.com/questions/9931115/run-greasemonkey-on-html-files-located-on-the-local-filesystem
-// -> about:config -> greasemonkey.fileIsGreaseable: true
-
 var traceOn = true;
 
-trace("starting...");
+trace('starting...');
 
 function showHelp() {
   alert(`Copy Anything for JIRA - Help
   
-    Press 'd' to copy various parts of the page into the clipboard.
+    Press 'D' to display the follow-up options to copy various parts of the page into the clipboard.
     
     @author pbodnar
     @version 1.0.0    
@@ -28,11 +24,11 @@ function showHelp() {
 }
 
 try {
-  trace("command register");
-  GM_registerMenuCommand("Copy Anything for JIRA - Help", showHelp);
-  trace("command registered");
+  trace('command register');
+  GM_registerMenuCommand('Copy Anything for JIRA - Help', showHelp);
+  trace('command registered');
 } catch (e) {
-  trace("command register error: " + e);  
+  trace('command register error: ' + e);  
 }
 
 // ==================== JIRA copy commands ====================
@@ -80,26 +76,29 @@ function showCommandsOverlay(event) {
 
 function hideCommandsOverlay() {
   commandsEnabled = false;
-  timer = null;
+  if (timer) {
+    clearTimeout(timer);
+    timer = null;
+  }
   var overlay = getCommandsDiv();
   $(overlay).hide();
 }
 
 function getCommandsDiv() {
-  if (typeof(commandsDiv) != "undefined") {
+  if (typeof commandsDiv != 'undefined') {
     return commandsDiv;
   }
   var div = commandsDiv = document.createElement('div');
   div.style = 'z-index: 1000001; color: red; background-color: white; padding: 1em; border: 1px solid red;';
   div.style.position = 'absolute';
   div.style.opacity = 0.75;
-  div.innerHTML = `Shortcuts available for copying to clipboard as:
+  div.innerHTML = `Follow-up shortcuts available for copying issue details to clipboard (&lt;key&gt; ... &lt;what appears in clipboard&gt;):
   <ul>
-   <li>shift+l ... <u>l</u>ink to issue, including issue key and summary</li>
-   <li>shift+s ... <u>s</u>hort link to issue, including just issue key</li>
-   <li>shift+m ... commit <u>m</u>essage template</li>
+   <li>Shift+L ... <u>l</u>ink to issue, including issue key and summary</li>
+   <li>Shift+S ... <u>s</u>hort link to issue, including just issue key</li>
+   <li>Shift+M ... commit <u>m</u>essage template</li>
    <hr />
-   <li>shift+e ... <u>e</u>scape - hide this popup</li>
+   <li>Shift+E ... <u>e</u>scape - hide this popup</li>
   </ul>`;
   
   insertBodyElement(div);
@@ -111,9 +110,9 @@ function getCommandsDiv() {
 
 function bindShortcut(keys, handler) {
   // make the shortcuts case-insensitive (bind() takes space as alternative keys separator):
-  keys = keys + " " + keys.toUpperCase();
+  keys = keys + ' ' + keys.toUpperCase();
   
-  $(document).bind("keypress", keys, handler);  
+  $(document).bind('keypress', keys, handler);  
 }
 
 function bindCopyShortcut(keys, handler) {
@@ -126,6 +125,7 @@ function bindCopyShortcut(keys, handler) {
   });
 }
 
+// TODO How to temporatily suppress the standard JIRA shortcuts, so there is no need to combine the letters with for example 'shift' as below?
 bindShortcut('d', showCommandsOverlay);
 bindCopyShortcut('shift+e', hideCommandsOverlay);
 
@@ -158,7 +158,7 @@ function showInfo(html) {
 }
 
 function getInfoDiv() {
-  if (typeof(infoDiv) != "undefined") {
+  if (typeof infoDiv != 'undefined') {
     return infoDiv;
   }
   var div = infoDiv = document.createElement('div');
@@ -176,7 +176,7 @@ function getInfoDiv() {
 // Inspired by http://jsfiddle.net/73v73p18/ 
 
 function getClipboardDiv() {
-  if (typeof(clipboardDiv) != "undefined") {
+  if (typeof clipboardDiv != 'undefined') {
     return clipboardDiv;
   }
   clipboardDiv = document.createElement('div');
@@ -208,7 +208,7 @@ function getClipboardDiv() {
 function copyHtmlToClipboard(html) {
   var clipboardDiv = getClipboardDiv();
   // Note: adding redundant <span> element in order not to have any trailing new line or other white space in the clipboard
-  clipboardDiv.innerHTML = html + "<span></span>";
+  clipboardDiv.innerHTML = html + '<span></span>';
 
   var focused = document.activeElement;
   clipboardDiv.focus();
@@ -230,7 +230,7 @@ function copyHtmlToClipboard(html) {
   focused.focus();
 }
 
-trace("started");
+trace('started');
 
 // ==================== Generic functions ====================
 
@@ -250,11 +250,11 @@ function getPagePath() {
   var loc = window.location.href;
   
   // cut off any '?...' if present
-  var qIndex = loc.indexOf("?");
+  var qIndex = loc.indexOf('?');
   loc = qIndex > -1 ? loc.substring(0, qIndex) : loc; 
   
   // cut off any #...' if present
-  var hIndex = loc.indexOf("#");
+  var hIndex = loc.indexOf('#');
   loc = hIndex > -1 ? loc.substring(0, hIndex) : loc; 
   
   return loc;
@@ -275,10 +275,10 @@ function trace(text) {
 
 // http://stackoverflow.com/questions/210717/using-jquery-to-center-a-div-on-the-screen
 jQuery.fn.center = function () {
-  this.css("position", "absolute");
-  this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) + 
-                                              $(window).scrollTop()) + "px");
-  this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) + 
-                                              $(window).scrollLeft()) + "px");
+  this.css('position', 'absolute');
+  this.css('top', Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) + 
+                                              $(window).scrollTop()) + 'px');
+  this.css('left', Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) + 
+                                              $(window).scrollLeft()) + 'px');
   return this;
 }

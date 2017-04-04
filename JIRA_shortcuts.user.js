@@ -9,9 +9,6 @@
 // @require     https://raw.githubusercontent.com/jeresig/jquery.hotkeys/0.2.0/jquery.hotkeys.js
 // ==/UserScript==
 
-// IMPORTANT: At least some @grant <> 'none' must be present to force GM to run the script 'in sandbox'.
-// See http://stackoverflow.com/questions/12146445/jquery-in-greasemonkey-1-0-conflicts-with-websites-using-jquery
-
 var traceOn = true;
 
 trace('starting...');
@@ -19,10 +16,10 @@ trace('starting...');
 function showHelp() {
   alert(`Shortcuts for JIRA - Help
   
-    This adds some keyboard shortcuts which are missing in the default JIRA instalation.
-    Just one hard-coded shortcut is available now (<key> ... <action>):
+    This adds some keyboard shortcuts which are missing in the default JIRA installation.
+    Just one hard-coded shortcut is available for now (<key> ... <action>):
     
-    - w ... show the Log Work dialog
+    - W ... show the Log Work dialog (on the issue detail page)
     
     @author pbodnar
     @version 1.0.0    
@@ -30,17 +27,17 @@ function showHelp() {
 }
 
 try {
-  trace("command register");
-  GM_registerMenuCommand("Shortcuts for JIRA - Help", showHelp);
-  trace("command registered");
+  trace('command register');
+  GM_registerMenuCommand('Shortcuts for JIRA - Help', showHelp);
+  trace('command registered');
 } catch (e) {
-  trace("command register error: " + e);  
+  trace('command register error: ' + e);  
 }
 
 // ==================== Commands ====================
 
 function showLogWorkDialog() {
-  var btn = $('#stalker #log-work')[0];
+  var btn = $('#log-work')[0];
   if (!btn) {
     trace('The Log Work button not found!');
     return;
@@ -56,9 +53,9 @@ function showLogWorkDialog() {
 function bindShortcut(keys, handler) {
   // make the shortcuts case-insensitive (bind() takes space as alternative keys
   // separator):
-  keys = keys + " " + keys.toUpperCase();
+  keys = keys + ' ' + keys.toUpperCase();
 
-  $(document).bind("keypress", keys, handler);
+  $(document).bind('keypress', keys, handler);
 }
 
 bindShortcut('w', showLogWorkDialog);
