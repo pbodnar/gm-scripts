@@ -1,6 +1,6 @@
 # About
 
-This project contains various handy user scripts for the [Greasemonkey](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/) (for Firefox; GM) and [Tampermonkey](https://chrome.google.com/webstore/detail/dhdgffkkebhmkfjojejmpbldmpobfkfo) (for Chrome; TM) browser addons. A user script is a peace of JavaScript code which gets executed on page load and which extends functionality of the pages it was written for. 
+This project contains various handy user scripts for the [Greasemonkey](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/) (for Firefox; GM) and [Tampermonkey](https://chrome.google.com/webstore/detail/dhdgffkkebhmkfjojejmpbldmpobfkfo) (for Chrome; TM) browser addons. A user script is a piece of JavaScript code which gets executed on page load and which extends functionality of the pages it was written for. 
 
 # Installation
 
@@ -8,4 +8,10 @@ Firstly install the aforementioned addon for your favorite browser and then simp
 
 # Usage
 
-The usage is always specific to a given user script. Most user scripts should offer a special help dialog that can be opened via the GM / TM tollbar icon. And of course, you can always look into the script's source code and see what it actually does... :)
+The usage is always specific to a given user script. Most user scripts should offer a special help dialog that can be opened via the GM / TM toolbar icon. And of course, you can always look into the script's source code and see what it actually does... :)
+
+# Troubleshooting
+
+What if something is not working as expected? Then you should firstly try to find some relevant information or error messages in the console log - this is typically available by pressing F12 in your browser and by navigating to the "Console" tab. And select for example "Logging -> Log" to see detailed logging from the GM scripts in Firefox.
+
+If you find a bug or a missing feature, you can create a new issue for that on the "Issues" page of this Github project.
