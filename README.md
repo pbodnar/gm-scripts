@@ -6,9 +6,21 @@ This project contains various handy user scripts for the [Greasemonkey](https://
 
 Firstly install the aforementioned addon for your favorite browser and then simply open the selected *\*.user.js* file in the browser. GM (or TM) will guide you through the rest of the user script installation. The most important thing to do is to set up the pages for which you want to have the given user script activated. You can always find an example of the appropriate "include pattern" right in the installed user script.
 
+An example configuration:
+
+![screenshot](screenshots/JIRA_copy_GM-options.png)
+
 # Usage
 
 The usage is always specific to a given user script. Most user scripts should offer a special help dialog that can be opened via the GM / TM toolbar icon. And of course, you can always look into the script's source code and see what it actually does... :)
+
+An example help dialog:
+
+![screenshot](screenshots/JIRA_copy_help.png)
+
+An example of a user script in action (the red "overlay" is rendered by the script after the user presses a corresponding shortcut):
+
+![screenshot](screenshots/JIRA_copy_usage.png)
 
 # Troubleshooting
 
