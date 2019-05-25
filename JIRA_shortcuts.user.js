@@ -10,6 +10,8 @@
 // @require     https://raw.githubusercontent.com/jeresig/jquery.hotkeys/0.2.0/jquery.hotkeys.js
 // ==/UserScript==
 
+(function($) {
+
 var traceOn = true;
 
 trace('starting...');
@@ -388,3 +390,5 @@ function VisibilityBinder(targetEl, cfg) {
     });
   }
 }
+  
+})(jQuery);
