@@ -18,9 +18,13 @@ An example help dialog:
 
 ![screenshot](screenshots/JIRA_copy_help.png)
 
-An example of a user script in action (the red "overlay" is rendered by the script after the user presses a corresponding shortcut):
+An example of the JIRA_copy user script in action (the red "overlay" is rendered by the script after the user presses a corresponding shortcut):
 
 ![screenshot](screenshots/JIRA_copy_usage.png)
+
+One of the JIRA_shotcuts user script functions in action:
+
+![screenshot](screenshots/JIRA_shortcuts_fn-alter-estim.png)
 
 # Troubleshooting
 
