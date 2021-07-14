@@ -3,11 +3,11 @@
 // @namespace   pbo
 // @description JIRA - additional shortcuts for JIRA
 // @include     http://your.jira.example.com/browse/*
-// @version     1.1.0
+// @version     1.1.1
 // @grant       GM_registerMenuCommand
 // @require     http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // @require     https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js
-// @require     https://raw.githubusercontent.com/jeresig/jquery.hotkeys/0.2.0/jquery.hotkeys.js
+// @require     https://raw.githubusercontent.com/pbodnar/jquery.hotkeys/filterTextInputs-easy/jquery.hotkeys.js
 // ==/UserScript==
 
 (function($) {
@@ -29,7 +29,7 @@ function showHelp() {
           ... a custom dialog appears which lets you change both estimates easily
     
     @author pbodnar
-    @version 1.1.0
+    @version 1.1.1
   `);
 }
 
