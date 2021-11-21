@@ -3,7 +3,7 @@
 // @namespace   pbo
 // @description JIRA - additional shortcuts for JIRA
 // @include     http://your.jira.example.com/browse/*
-// @version     1.1.1
+// @version     1.2.0
 // @grant       GM_registerMenuCommand
 // @require     http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // @require     https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js
@@ -25,11 +25,15 @@ function showHelp() {
     - press <W>
           ... shows the Jira's Log Work dialog (if it is available)
     
+    - press <Shift>+<W>
+          ... the same as <W>, but with the "Smart log" function implemented by this script.
+              Note that this relies on "Visual" tab being present in the dialog.
+    
     - click '+/-' when hovering above 'Original / Remaining Estimate' fields while editing an issue
           ... a custom dialog appears which lets you change both estimates easily
     
     @author pbodnar
-    @version 1.1.1
+    @version 1.2.0
   `);
 }
 
@@ -43,7 +47,15 @@ try {
 
 // ==================== Commands ====================
 
-function showLogWorkDialog() {
+function showLogWorkDialogSimple() {
+  showLogWorkDialog(false);
+}
+
+function showLogWorkDialogSmart() {
+  showLogWorkDialog(true);
+}
+
+function showLogWorkDialog(smartLogTime) {
   var btn = $('#log-work')[0];
   if (!btn) {
     trace('The Log Work button not found!');
@@ -51,6 +63,71 @@ function showLogWorkDialog() {
   }
   trace('Clicking the Log Work button...');
   triggerMouseEvent(btn, 'click');
+  if (smartLogTime) {
+    // relying on TinyMCE's Visual editor and API here
+    waitFor(() => $('form#log-work *[data-mode=wysiwyg] a')[0], prepareSmartLogTime);
+  }
+}
+
+function prepareSmartLogTime(btnVisual) {
+  triggerMouseEvent(btnVisual, 'click');
+  waitFor(() => unsafeWindow.tinymce.activeEditor, doSmartLogTime);
+}
+
+function doSmartLogTime(commentEditor) {
+  var timesAndDescr = window.prompt('Smart log: Enter time intervals & work description:', '09:00 - 10:00, 10:30 - 11:15 implemented happy day scenario');
+  if (!timesAndDescr) {
+    return;
+  }
+  try {
+    // 1) fill "Time Spent"
+    var sumTime = getSumHours(timesAndDescr);
+    // note: Number.EPSILON helps us with rounding e. g. 1.005 to 1.01
+    $('#log-work-time-logged').val(Math.round((sumTime + Number.EPSILON) * 100) / 100);
+
+    // 2) fill "Work Description"
+    var descrIndex = timesAndDescr.search(/[A-Za-zÀ-ÖØ-öø-ÿ]/);
+    if (descrIndex < 0) {
+      descrIndex = 0;
+    }
+    // note: without a delay, the write to the editor doesn't always work
+    var descr = timesAndDescr.substr(descrIndex);
+    setTimeout(() => commentEditor.setContent(escapeHtml(descr)), 500);
+  } catch (e) {
+    window.alert('Something went wrong when processing your input: ' + e);
+  }
+}
+
+function getSumHours(expr) {
+  var sum = 0;
+  var now = new Date();
+  
+  // \u2013 = EN DASH
+  var intervalsRe = /(\d{1,2}):(\d{2})\s*[-\u2013]\s*(\d{1,2}):(\d{2})/g;
+  var match;
+  while (match = intervalsRe.exec(expr)) {
+    var dateFrom = new Date(now);
+    var dateTo = new Date(now);
+  
+    dateFrom.setHours((match[1]));
+    dateFrom.setMinutes(match[2]);
+    dateTo.setHours((match[3]));
+    dateTo.setMinutes(match[4]);
+  
+    if (dateTo < dateFrom) {
+      // somebody worked over midnight...
+      dateTo.setDate(dateTo.getDate() + 1);
+    }
+  
+    var diffMillis = dateTo - dateFrom;
+    if (diffMillis <= 0) {
+      throw 'Non-positive time diff=' + diffMillis + ' extracted from=' + match[0];
+    }
+    var diffHours = diffMillis / 1000 / 60 / 60;
+    sum += diffHours;
+  }
+
+  return sum;
 }
 
 // ==================== GUI ====================
@@ -102,13 +179,36 @@ function getInfoDiv() {
   return div;
 }
 
-bindShortcut('w', showLogWorkDialog);
+// Note: It looks like this shortcut was added to Jira in 2019 or so, see https://jira.atlassian.com/browse/JRASERVER-16459.
+bindShortcut('w', showLogWorkDialogSimple);
+bindShortcut('shift+w', showLogWorkDialogSmart);
 
 setInterval(extendEstimateFields, 1000);
 
 trace('started');
 
 // ==================== Generic functions ====================
+
+function escapeHtml(text) {
+  return text.replace(/[<>&]/g, function(match) {
+    if (match == '<') {
+      return '&lt;';
+    } else if (match == '>') {
+      return '&gt;';
+    } else {
+      return '&amp;';
+    }
+  });
+}
+
+function waitFor(checkFn, nextFn) {
+  var res = checkFn();
+  if (res) {
+    nextFn(res);
+    return;
+  }
+  setTimeout(() => waitFor(checkFn, nextFn), 500);
+}
 
 // see
 // http://stackoverflow.com/questions/10423426/jquery-click-not-working-in-a-greasemonkey-tampermonkey-script
