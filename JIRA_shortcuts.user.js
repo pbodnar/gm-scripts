@@ -3,7 +3,7 @@
 // @namespace   pbo
 // @description JIRA - additional shortcuts for JIRA
 // @include     http://your.jira.example.com/browse/*
-// @version     1.2.0
+// @version     1.2.1
 // @grant       GM_registerMenuCommand
 // @require     http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // @require     https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js
@@ -65,7 +65,7 @@ function showLogWorkDialog(smartLogTime) {
   triggerMouseEvent(btn, 'click');
   if (smartLogTime) {
     // relying on TinyMCE's Visual editor and API here
-    waitFor(() => $('form#log-work *[data-mode=wysiwyg] a')[0], prepareSmartLogTime);
+    waitFor(() => $('form#log-work *[data-mode=wysiwyg] > *')[0], prepareSmartLogTime);
   }
 }
 
