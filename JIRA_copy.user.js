@@ -22,7 +22,7 @@ function showHelp() {
     Press 'D' to display the follow-up shortcuts / options to copy various parts of the page into the clipboard.
     
     @author pbodnar
-    @version 1.1.1
+    @version ${GM_info.script.version}
   `);
 }
 

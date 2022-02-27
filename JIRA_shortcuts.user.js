@@ -33,7 +33,7 @@ function showHelp() {
           ... a custom dialog appears which lets you change both estimates easily
     
     @author pbodnar
-    @version 1.2.0
+    @version ${GM_info.script.version}
   `);
 }
 
