@@ -3,7 +3,7 @@
 // @namespace   pbo
 // @description JIRA - additional shortcuts for JIRA
 // @include     http://your.jira.example.com/browse/*
-// @version     1.2.1
+// @version     1.2.2
 // @grant       GM_registerMenuCommand
 // @require     http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // @require     https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js
@@ -86,7 +86,7 @@ function doSmartLogTime(commentEditor) {
     $('#log-work-time-logged').val(Math.round((sumTime + Number.EPSILON) * 100) / 100);
 
     // 2) fill "Work Description"
-    var descrIndex = timesAndDescr.search(/[A-Za-zÀ-ÖØ-öø-ÿ]/);
+    var descrIndex = timesAndDescr.search(/[A-Za-z\u00C0-\u017F]/);
     if (descrIndex < 0) {
       descrIndex = 0;
     }
